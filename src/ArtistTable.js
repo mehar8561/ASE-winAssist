@@ -52,10 +52,13 @@ class ArtistTable extends Component {
       loading: true,
       inputVal: ' ',
       searchQuery: '',
+      searchQuery2: '',
+      setSearchQuery3: '',
       columnOptionSelection:columnsOption1
     }
   }
   onSubmit = (e) => {
+
     this.getUsersData(this.state.searchQuery);
     console.log(this.state.searchQuery)
 
@@ -67,14 +70,18 @@ class ArtistTable extends Component {
   setSearchQuery = (e) => {
     this.setState(
       {
-        searchQuery: e
+        searchQuery: e,
+        searchQuery2: '',
+        searchQuery3: ''
       }
     )
 
   };
 
   onSubmit2 = (e) => {
-    this.getUsersData(this.state.searchQuery);
+
+    debugger;
+    this.getUsersData(this.state.searchQuery2);
     console.log(this.state.searchQuery)
 
     e.preventDefault();
@@ -86,14 +93,16 @@ class ArtistTable extends Component {
   setSearchQuery2 = (e) => {
     this.setState(
       {
-        searchQuery: e
+        searchQuery2: e,
+        searchQuery: '',
+        searchQuery3: ''
       }
     )
 
   };
 
   onSubmit3 = (e) => {
-    this.getUsersData(this.state.searchQuery);
+    this.getUsersData(this.state.searchQuery3);
     console.log(this.state.searchQuery)
 
     e.preventDefault();
@@ -105,7 +114,9 @@ class ArtistTable extends Component {
   setSearchQuery3 = (e) => {
     this.setState(
       {
-        searchQuery: e
+        searchQuery3: e,
+        searchQuery2: '',
+        searchQuery: ''
       }
     )
 
@@ -122,6 +133,7 @@ class ArtistTable extends Component {
     )
   }
   async getUsersData(c) {
+    debugger;
     const res = await axios.get('http://localhost:8080/greeting?query=' + this.state.searchQuery)
     console.log(res.data)
     this.setState({ loading: false, users: res.data })
@@ -214,12 +226,12 @@ class ArtistTable extends Component {
         >
 
           <input
-            value={this.state.searchQuery}
+            value={this.state.searchQuery2}
             onInput={(e) => this.setSearchQuery2(e.target.value)}
             type="text"
             id="header-search"
             // placeholder="Search blog posts"
-            name="s"
+            name="s2"
           />
           <button type="submit">Search Suggestion</button>
         </form>
@@ -231,12 +243,12 @@ class ArtistTable extends Component {
         >
 
           <input
-            value={this.state.searchQuery}
+            value={this.state.searchQuery3}
             onInput={(e) => this.setSearchQuery3(e.target.value)}
             type="text"
             id="header-search"
             // placeholder="Search blog posts"
-            name="s"
+            name="s3"
           />
           <button type="submit">Search Similar pages</button>
         </form>
