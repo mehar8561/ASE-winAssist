@@ -3,7 +3,7 @@ import axios from 'axios'
 import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
 // import SearchField from "react-search-field";
-import SB from './SearchBar';
+// import SB from './SearchBar';
 
 const columnsOption1 = [{
   Header: 'Title',
