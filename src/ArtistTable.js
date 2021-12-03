@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import ReactTable from "react-table-6";
+// import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
 // import SearchField from "react-search-field";
 // import SB from './SearchBar';
+import  dt from './data.json'
+
+
+const config = {
+  headers: {
+    accept: 'application/json',
+  }
+};
 
 const columnsOption1 = [{
   Header: 'Title',
@@ -80,8 +88,8 @@ class ArtistTable extends Component {
 
   onSubmit2 = (e) => {
 
-    debugger;
-    this.getUsersData(this.state.searchQuery2);
+    // debugger;
+    this.getUsersData2(this.state.searchQuery2);
     console.log(this.state.searchQuery)
 
     e.preventDefault();
@@ -102,7 +110,7 @@ class ArtistTable extends Component {
   };
 
   onSubmit3 = (e) => {
-    this.getUsersData(this.state.searchQuery3);
+    this.getUsersDoc2Vec(this.state.searchQuery3);
     console.log(this.state.searchQuery)
 
     e.preventDefault();
@@ -125,7 +133,7 @@ class ArtistTable extends Component {
 
 
   valChange = (e) => {
-    debugger;
+    // debugger;
     this.setState(
       {
         inputVal: e.target.value
@@ -133,10 +141,42 @@ class ArtistTable extends Component {
     )
   }
   async getUsersData(c) {
+   
+     const resl = await axios.get('https://flaskapp-t-2-lkhdudb43a-uc.a.run.app/doc2vec?query=' + this.state.searchQuery,
+      config);
+     
+      // JSON.stringify(resl)
+     
+
+      const res= JSON.stringify(resl);
+
+ 
+
+
+    // const x=dt;
+    this.setState({ loading: false, users: resl.data })
+    console.log(res.data);
+    // debugger;
+    // const s=0
+  }
+
+  async getUsersData2(c) {
+     const resl = await axios.get('https://flaskapp-t-2-lkhdudb43a-uc.a.run.app/classify?query=' + this.state.searchQuery2,
+      config);
+     
+      // JSON.stringify(resl)
+     
+
+      const res= JSON.stringify(resl);
+
+ 
+
+
+    // const x=dt;
+    this.setState({ loading: false, users: resl.data })
+    console.log(res.data);
     debugger;
-    const res = await axios.get('http://localhost:8080/greeting?query=' + this.state.searchQuery)
-    console.log(res.data)
-    this.setState({ loading: false, users: res.data })
+    // const s=0
   }
 
   //   componentDidMount(){
@@ -146,21 +186,22 @@ class ArtistTable extends Component {
   componentDidMount() {
 
     this.getUsersData();
+    this.getUsersData2();
     // this.getUsersData2();
     // const { projects, filterProject, onUpdateProjects } = this.props;
     // onUpdateProjects(projects);
   }
 
-  handleInputChange = (event) => {
+  // handleInputChange = (event) => {
 
-    const query = event.currentTarget.value;
-    this.getUsersData(query);
-    // const { projects, filterProject, onUpdateProjects } = this.props;
+  //   const query = event.currentTarget.value;
+  //   this.getUsersData(query);
+  //   // const { projects, filterProject, onUpdateProjects } = this.props;
 
-    // const filteredProjects = projects.filter(project => !query || filterProject(query, project));
+  //   // const filteredProjects = projects.filter(project => !query || filterProject(query, project));
 
-    // onUpdateProjects(filteredProjects);
-  };
+  //   // onUpdateProjects(filteredProjects);
+  // };
 
 
 
@@ -216,7 +257,7 @@ class ArtistTable extends Component {
             // placeholder="Search blog posts"
             name="s"
           />
-          <button type="submit">Search Pages</button>
+          <button type="submit">Search Doc2Vec</button>
         </form>
         <form
           action="/"
@@ -233,9 +274,9 @@ class ArtistTable extends Component {
             // placeholder="Search blog posts"
             name="s2"
           />
-          <button type="submit">Search Suggestion</button>
+          <button type="submit">Search Classification</button>
         </form>
-        <form
+        {/* <form
           action="/"
           method="get"
           autoComplete="on"
@@ -251,7 +292,7 @@ class ArtistTable extends Component {
             name="s3"
           />
           <button type="submit">Search Similar pages</button>
-        </form>
+        </form> */}
 
 
         {/* <SB/> */}
@@ -260,10 +301,11 @@ class ArtistTable extends Component {
        </form> */}
         {/* <label>search bar</label> */}
         {/* <button onClick={shoot}>Take the Shot!</button> */}
-        <ReactTable
+        {/* <ReactTable
           data={this.state.users}
           columns={this.state.columnOptionSelection}
-        />
+        /> */}
+       <div><pre>{(this.state.searchQuery!=='' || this.state.searchQuery2!=='') ? JSON.stringify(this.state.users, null, 2) : ''}</pre></div>)
       </div>
     )
   }
