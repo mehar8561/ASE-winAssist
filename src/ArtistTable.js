@@ -4,7 +4,7 @@ import axios from 'axios'
 import "react-table-6/react-table.css";
 // import SearchField from "react-search-field";
 // import SB from './SearchBar';
-import  dt from './data.json'
+// import  dt from './data.json'
 
 
 const config = {
